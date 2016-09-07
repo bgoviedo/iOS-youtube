@@ -8,23 +8,36 @@
 
 import UIKit
 
-class HomeVC: UICollectionViewController {
+class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
-    let cellId = "cellId"
+    private let cellId = "cellId"
     
-    let titles = ["Home", "Trending", "Subscriptions", "Account"]
+    private let titles = ["Home", "Trending", "Subscriptions", "Account"]
+    
+    lazy var menuBar: MenuBar = {
+        let mb = MenuBar()
+        mb.homeController = self
+        
+        return mb
+    }()
+    
+    // MARK: Controller Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         navigationController?.navigationBar.isTranslucent = false
+        navigationController?.hidesBarsOnSwipe = true
         
         setupTitleLabel()
         setupCollectionView()
         setupNavBarButtons()
         setupMenuBar()
-        
     }
     
-    func setupTitleLabel() {
+    // MARK: Setting up views
+    
+    private func setupTitleLabel() {
         let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width - 32, height: view.frame.height))
         titleLabel.text = "  Home"
         titleLabel.font = UIFont.systemFont(ofSize: 20)
@@ -33,7 +46,7 @@ class HomeVC: UICollectionViewController {
         navigationItem.titleView = titleLabel
     }
     
-    func setupCollectionView() {
+    private func setupCollectionView() {
         if let flowLayout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout {
             flowLayout.scrollDirection = .horizontal
             flowLayout.minimumLineSpacing = 0
@@ -47,68 +60,67 @@ class HomeVC: UICollectionViewController {
         collectionView?.isPagingEnabled = true
     }
     
-    func setupNavBarButtons() {
-        let searchImage = UIImage(named: "search_icon")?.withRenderingMode(.alwaysOriginal)
+    private func setupNavBarButtons() {
+        let searchImage = UIImage(named: "search")?.withRenderingMode(.alwaysOriginal)
         let searchBarButtonItem = UIBarButtonItem(image: searchImage, style: .plain, target: self, action: #selector(handleSearch))
         
-        let moreImage = UIImage(named: "more_icon")?.withRenderingMode(.alwaysOriginal)
+        let moreImage = UIImage(named: "more")?.withRenderingMode(.alwaysOriginal)
         let moreBarButtonItem = UIBarButtonItem(image: moreImage, style: .plain, target: self, action: #selector(handleMore))
         
         navigationItem.rightBarButtonItems = [searchBarButtonItem,moreBarButtonItem]
     }
     
-    
-    func handleSearch() {
-        
-    }
-    
-    func handleMore() {
-        
-    }
-
-
-    lazy var menuBar: MenuBar = {
-        let mb = MenuBar()
-   //     mb.homeController = self
-        return mb
-    }()
-    
-    func setupMenuBar() {
+    private func setupMenuBar() {
 
         menuBar.translatesAutoresizingMaskIntoConstraints = false
-        menuBar.backgroundColor = .green
+        
         view.addSubview(menuBar)
+        
         
         menuBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         menuBar.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        
         menuBar.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
         menuBar.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        
-        print("The menubar bound is equal to \(menuBar.bounds)")
-        
-    }
-    
-    func scrollToMenuIndex(menuIndex: Int) {
-        let indexPath = IndexPath(item: menuIndex, section: 0)
 
-        collectionView?.scrollToItem(at: indexPath, at: [], animated: true)
-        
-        setTitleForIndex(index: menuIndex)
     }
     
-    private func setTitleForIndex(index: Int) {
+    private func setTitle(for indexPath: IndexPath) {
         if let titleLabel = navigationItem.titleView as? UILabel {
-            titleLabel.text = "  \(titles[index])"
+            titleLabel.text = "  \(titles[indexPath.item])"
         }
-        
+    }
+    
+    // MARK: Handling Navigation Bar Buttons
+    
+    func handleSearch() {
+        print("Handling search...")
+    }
+    
+    func handleMore() {
+        print("Handling more...")
+    }
+    
+    
+    // MARK: Scrolling Functions
+    
+    func scroll(to menuIndexPath: IndexPath) {
+        collectionView?.scrollToItem(at: menuIndexPath, at: [], animated: true)
+        setTitle(for: menuIndexPath)
+    }
+    
+    
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        menuBar.horizontalBarLeadingAnchor?.constant = scrollView.contentOffset.x / 4
     }
 
-
-}
-
-extension HomeVC: UICollectionViewDelegateFlowLayout {
+    override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        let itemIndex = targetContentOffset.pointee.x / view.frame.width
+        let targetIndexPath = IndexPath(item: Int(itemIndex), section: 0)
+        menuBar.collectionView.selectItem(at: targetIndexPath, animated: true, scrollPosition: [])
+        setTitle(for: targetIndexPath)
+    }
     
+    // MARK: CollectionView Data Source
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 4
@@ -117,12 +129,18 @@ extension HomeVC: UICollectionViewDelegateFlowLayout {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
         let colors: [UIColor] = [.red,.blue,.green,.yellow]
-
+        
         cell.backgroundColor = colors[indexPath.item]
         return cell
     }
     
+    // MARK: CollectionView Delegate
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: view.frame.height - 50)
     }
+    
+    
+
+
 }
