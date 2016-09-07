@@ -12,6 +12,7 @@
 		5570A6231D7F7BA1004DEA21 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5570A6221D7F7BA1004DEA21 /* Assets.xcassets */; };
 		5570A6261D7F7BA1004DEA21 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5570A6241D7F7BA1004DEA21 /* LaunchScreen.storyboard */; };
 		5570A62F1D7F7E1B004DEA21 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5570A62E1D7F7E1B004DEA21 /* Extensions.swift */; };
+		5570A6321D7F9525004DEA21 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5570A6311D7F9525004DEA21 /* MenuBar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,7 +23,7 @@
 		5570A6251D7F7BA1004DEA21 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5570A6271D7F7BA1004DEA21 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5570A62E1D7F7E1B004DEA21 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		5570A6301D7F88D8004DEA21 /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; };
+		5570A6311D7F9525004DEA21 /* MenuBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,7 +40,6 @@
 		5570A60F1D7F7BA1004DEA21 = {
 			isa = PBXGroup;
 			children = (
-				5570A6301D7F88D8004DEA21 /* MyPlayground.playground */,
 				5570A61A1D7F7BA1004DEA21 /* youtube */,
 				5570A6191D7F7BA1004DEA21 /* Products */,
 			);
@@ -62,6 +62,7 @@
 				5570A6241D7F7BA1004DEA21 /* LaunchScreen.storyboard */,
 				5570A6271D7F7BA1004DEA21 /* Info.plist */,
 				5570A62E1D7F7E1B004DEA21 /* Extensions.swift */,
+				5570A6311D7F9525004DEA21 /* MenuBar.swift */,
 			);
 			path = youtube;
 			sourceTree = "<group>";
@@ -140,6 +141,7 @@
 			files = (
 				5570A61E1D7F7BA1004DEA21 /* HomeVC.swift in Sources */,
 				5570A62F1D7F7E1B004DEA21 /* Extensions.swift in Sources */,
+				5570A6321D7F9525004DEA21 /* MenuBar.swift in Sources */,
 				5570A61C1D7F7BA1004DEA21 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
